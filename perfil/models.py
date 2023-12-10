@@ -2,11 +2,11 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class perfil(models.Model):
-    user = models.OneToOneField(User, on_delete = models.CASCADE)
+    user = models.OneToOneField(User, on_delete = models.CASCADE, verbose_name = 'Usuario')
     idade = models.PositiveIntegerField()
-    data_nascimento = models.DateField()
-    cpf = models.CharField(max_length = 11)
-    endereco = models.CharField(max_length = 50)
+    data_nascimento = models.DateField(verbose_name = 'Data de Nascimento')
+    cpf = models.CharField(max_length = 11, verbose_name = 'CPF')
+    endereco = models.CharField(max_length = 50, verbose_name = 'Endereço')
     numero  = models.CharField(max_length = 5)
     complemento = models.CharField(max_length = 10)
     bairro = models.CharField(max_length = 50)
@@ -51,4 +51,8 @@ class perfil(models.Model):
     
     def clean(self):
         pass
+
+    class Meta:
+        verbose_name = 'Perfil'
+        verbose_name_plural = "Perfis"
     

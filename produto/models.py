@@ -5,15 +5,15 @@ import os
 
 
 class Produto(models.Model):
-    nome = models.CharField(max_length = 255)
-    shortDesc = models.TextField(max_length = 255)
-    longDesc = models.TextField()
+    nome = models.CharField(max_length = 255, verbose_name = 'Nome do Produto')
+    shortDesc = models.TextField(max_length = 255, verbose_name = 'Descrição Curta')
+    longDesc = models.TextField(verbose_name = 'Descrição longa')
     imagem = models.ImageField(
         upload_to = 'produtos_imagem/%Y/%m/', blank = True, null = True
     )
     slug = models.SlugField(unique = True)
-    preco = models.FloatField()
-    precoPromocional = models.FloatField(default = 0)
+    preco = models.FloatField(verbose_name = 'Preço')
+    precoPromocional = models.FloatField(default = 0, verbose_name = 'Preço Promocional')
     tipo = models.CharField(
         default = 'V',
         max_length = 1,
@@ -59,8 +59,8 @@ class Produto(models.Model):
 class Var(models.Model):
     produto = models.ForeignKey(Produto, on_delete = models.CASCADE)
     nome = models.CharField(max_length = 50, blank = True, null = True)
-    preco = models.FloatField()
-    precoPromocional = models.FloatField(default = 0)
+    preco = models.FloatField(verbose_name = 'Preço')
+    precoPromocional = models.FloatField(default = 0, verbose_name = 'Preço Promocional')
     estoque = models.PositiveIntegerField(default = 1)
 
     def __str__(self): 

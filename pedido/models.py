@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 
 class Pedido(models.Model):
-    user = models.ForeignKey(User, on_delete = models.CASCADE)
+    user = models.ForeignKey(User, on_delete = models.CASCADE, verbose_name = 'Usuario')
     total = models.FloatField()
     status = models.CharField(
         default = 'C',
@@ -24,12 +24,12 @@ class Pedido(models.Model):
 class ItemPedido(models.Model):
     pedido = models.ForeignKey(Pedido, on_delete = models.CASCADE)
     produto = models.CharField(max_length = 255)
-    IdProduto = models.PositiveIntegerField()
-    variacao = models.CharField(max_length = 255)
-    IdVariacao = models.PositiveIntegerField()
-    preco = models.FloatField()
-    precoPromocional = models.FloatField(default = 0)
-    qntd = models.PositiveIntegerField()
+    IdProduto = models.PositiveIntegerField(verbose_name = 'Id do Produto') 
+    variacao = models.CharField(max_length = 255, verbose_name = 'Variação')
+    IdVariacao = models.PositiveIntegerField(verbose_name = 'Id da Variação')
+    preco = models.FloatField(verbose_name = 'Preço')
+    precoPromocional = models.FloatField(default = 0, verbose_name = 'Preço Promocional')
+    qntd = models.PositiveIntegerField(verbose_name = 'Quantidade de estoque')
     imagem = models.CharField(max_length = 2000)
 
     def __str__(self):
