@@ -1,5 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.forms import ValidationError
+from utils.validCPF import valida_cpf
+
+import re
+
 
 class perfil(models.Model):
     user = models.OneToOneField(User, on_delete = models.CASCADE, verbose_name = 'Usuario')
@@ -8,7 +13,7 @@ class perfil(models.Model):
     cpf = models.CharField(max_length = 11, verbose_name = 'CPF')
     endereco = models.CharField(max_length = 50, verbose_name = 'Endereço')
     numero  = models.CharField(max_length = 5)
-    complemento = models.CharField(max_length = 10)
+    complemento = models.CharField(max_length = 10, default = True, blank = True)
     bairro = models.CharField(max_length = 50)
     cep = models.CharField(max_length = 8)
     cidade = models.CharField(max_length = 30)
@@ -47,10 +52,19 @@ class perfil(models.Model):
     )
 
     def __str__(self):
-        return f'{self.user.first_name} {self.user.last_name}'
+        return f'{self.user}'
     
     def clean(self):
-        pass
+        error_messages = {}
+        
+        if not valida_cpf(self.cpf):
+            error_messages['cpf'] = 'Digite um CPF válido'
+
+        if re.search(r'[^0-9]', self.cep) or len(self.cep) < 8:
+            error_messages['cep'] = 'CEP inválido. Digite apenas numeros'
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     class Meta:
         verbose_name = 'Perfil'
